@@ -1,9 +1,10 @@
 const { User } = require('../models/index')
-
+const bcrypt = require('bcryptjs');
 
 class Controller {
     static login(req, res) {
-        res.render("home")
+        const { errors } = req.query
+        res.render("home", { errors })
     }
 
     static postLogin(req, res) {
@@ -11,18 +12,18 @@ class Controller {
         User.findOne({where: {email}})
             .then((user) => {
                 if (user) {
-                    const bcrypt = require('bcryptjs');
-                    const salt = bcrypt.genSaltSync(10);
-                    const hash = bcrypt.hashSync(user.password, salt);
-                    const isValidPassword = bcrypt.compareSync(password, hash);
+                    
+                    const isValidPassword = bcrypt.compareSync(password, user.password);
 
                     if (isValidPassword) {
                         return res.send("masuk")
                     } else {
-                        return res.redirect('/')
+                        const error = `Akun/Password salah!`
+                        return res.redirect(`/?errors=${error}`)
                     }
                 } else {
-                    res.send("ga ada akunnya")
+                    const error = 'Akun/Password salah!'
+                    res.redirect(`/?errors=${error}`)
                 }
             })
             .catch((err) => {
@@ -32,7 +33,8 @@ class Controller {
     }
 
     static register(req, res) {
-        res.render("register")
+        const { errors } = req.query
+        res.render("register", { errors })
     }
 
     static postRegister(req, res) {
@@ -42,8 +44,13 @@ class Controller {
                 res.redirect('/')
             })
             .catch((err) => {
-                console.log(err)
-                res.send(err)
+                if (err.name == "SequelizeValidationError") {
+                    const errors = err.errors.map(el => el.message)
+                    res.redirect(`/register?errors=${errors}`)
+                } else {
+                    console.log(err)
+                    res.send(err)
+                }
             })
     }
 }

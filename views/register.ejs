@@ -27,7 +27,14 @@
             </select>
         </div>
         <button type="submit" class="btn btn-primary">Save</button>
-    </form><br><br>
+    </form>
+    <% if (errors) { %>
+        <% errors.split(',').forEach((el) => { %>
+            <p style="color: red;"><%= el %></p>
+        <% }) %>
+    <% } %>
+    <br><br>
+    <p>Already have an account?  <a href="/"><button type="button" class="btn btn-link">Log In</button></a></p>
 
     
 

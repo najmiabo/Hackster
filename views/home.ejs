@@ -20,7 +20,11 @@
             <input type="password" class="form-control" id="exampleInputPassword1" name="password">
         </div>
         <button type="submit" class="btn btn-primary">Log In</button>
-    </form><br><br>
+    </form>
+    <% if (errors) { %>
+        <p style="color: red;"><%= errors %></p>
+    <% } %>
+    <br><br>
 
     <p>Don't have an account?  <a href="/register"><button type="button" class="btn btn-link">Register</button></a></p>
 
