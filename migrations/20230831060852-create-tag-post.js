@@ -13,13 +13,17 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {
           model: 'Posts'
-        }
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       TagId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Tags'
-        }
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       createdAt: {
         allowNull: false,

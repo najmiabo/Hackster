@@ -54,9 +54,9 @@
             <tr>
               <th scope="row"><%= index + 1 %></th>
               <td><%= el.content %></td>
-              <td></td>
+              <td><%= el.Tags[0].name %></td>
               <td>
-                <a href="/addTag"><button>Add Tag</button></a>
+                <a href="/addTag"><button type="button" class="btn btn-secondary">Add Tag</button></a>
               </td>
             </tr>
         <% }) %>
