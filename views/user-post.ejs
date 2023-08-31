@@ -22,7 +22,9 @@
         <button type="submit" class="btn btn-primary">Upload</button>
     </form>
 
-
+    <% if (errors) { %>
+        <p style="color: red;"><%= errors %></p>
+    <% } %>
 
    
 </body>

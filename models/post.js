@@ -26,7 +26,10 @@ module.exports = (sequelize, DataTypes) => {
         const isBadWord = wordfilter.blacklisted(instance.content)
 
         if (isBadWord) {
-          throw 'Dilarang memposting kata kata kasar!'
+          throw {
+            name: 'BadWords',
+            errors: "Dilarang posting kata-kata yang tidak pantas!"
+          }
         }
       },
       

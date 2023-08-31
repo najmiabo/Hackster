@@ -154,9 +154,10 @@ class Controller {
     }
 
     static post(req, res) {
+        const { errors } = req.query
         Tag.findAll()
             .then((tags) => {
-                res.render('user-post', { tags })
+                res.render('user-post', { tags, errors })
             })
             .catch((err) => {
                 console.log(err)
@@ -166,7 +167,7 @@ class Controller {
 
     static postProcess(req, res) {
         const { content, TagId } = req.body;
-    
+        
         Post.create({ content, UserId: req.session.UserId })
             .then((post) => {
                 if (TagId) {
@@ -178,8 +179,12 @@ class Controller {
                 res.redirect('/profile');
             })
             .catch((err) => {
-                console.error(err);
-                res.send(err);
+                if (err.name == "BadWords") {
+                    res.redirect(`/post?errors=${err.errors}`)
+                } else {
+                    console.error(err);
+                    res.send(err);
+                }
             });
     }
     
