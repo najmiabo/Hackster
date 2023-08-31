@@ -1,4 +1,4 @@
-const { User } = require('../models/index')
+const { User, Profile, Post, Tag } = require('../models/index')
 const bcrypt = require('bcryptjs');
 
 class Controller {
@@ -9,14 +9,28 @@ class Controller {
 
     static postLogin(req, res) {
         const { email, password } = req.body
-        User.findOne({where: {email}})
+        User.findOne({
+            where: {
+                email
+            },
+            include: [Profile, {
+                model: Post,
+                include: Tag
+            }]
+        })
             .then((user) => {
                 if (user) {
                     
                     const isValidPassword = bcrypt.compareSync(password, user.password);
 
                     if (isValidPassword) {
-                        return res.send("masuk")
+                        req.session.UserId = user.id
+                        if (user.role == "Admin") {
+                            return res.render('admin', { user })
+                        } else {
+                            // return res.json(user)
+                            return res.render('user', { user })
+                        }
                     } else {
                         const error = `Akun/Password salah!`
                         return res.redirect(`/?errors=${error}`)
@@ -51,6 +65,31 @@ class Controller {
                     console.log(err)
                     res.send(err)
                 }
+            })
+    }
+
+    static post(req, res) {
+        Tag.findAll()
+            .then((tags) => {
+                res.render('user-post', { tags })
+            })
+            .catch((err) => {
+                console.log(err)
+                res.send(err)
+            })
+    }
+
+    static postProcess(req, res) {
+        const { content, TagId } = req.body
+        console.log(req.body)
+        // res.send("a")
+        Post.create({ content, UserId: req.session.UserId })
+            .then(() => {
+                res.redirect('/post')
+            })
+            .catch((err) => {
+                console.log(err)
+                res.send(err)
             })
     }
 }
