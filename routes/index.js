@@ -3,6 +3,7 @@ const router = require('express').Router()
 
 router.get('/', Controller.login)
 router.post('/', Controller.postLogin)
+
 router.get('/register', Controller.register)
 router.post('/register', Controller.postRegister)
 
@@ -15,8 +16,19 @@ router.use((req, res, next) => {
     }
 })
 
-router.get('/profile')
+router.get('/profile', Controller.profile)
+router.post('/profile', Controller.profilePost)
+
+router.get('/profile/update', Controller.updateProfile)
+router.post('/profile/update', Controller.updateProfilePost)
+
 router.get('/post', Controller.post)
 router.post('/post', Controller.postProcess)
+
+router.get('/dashboard', Controller.dashboard)
+router.get('/dashboard/:UserId/post', Controller.showPosts)
+router.get('/dashboard/:UserId/post/:id/delete', Controller.deletePost)
+
+router.get('/logout', Controller.logOut)
 
 module.exports = router

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<body>
+    <%- include('./partials/_header') %>
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone Number</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+            <% users.forEach((el, index) => { %>
+                <tr>
+                  <th scope="row"><%= index + 1 %></th>
+                  <td><%= el.Profile.fullName %></td>
+                  <td><%= el.email %></td>
+                  <td><%= el.Profile.phone %></td>
+                  <td>
+                    <a href="/dashboard/<%= el.id %>/post"><button type="button" class="btn btn-outline-warning">Posts</button></a>
+                  </td>
+                </tr>
+            <% }) %>
+        </tbody>
+      </table>
+</body>
+</html>

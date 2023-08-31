@@ -19,6 +19,17 @@ module.exports = (sequelize, DataTypes) => {
     UserId: DataTypes.INTEGER,
     content: DataTypes.TEXT
   }, {
+    hooks: {
+      beforeCreate: (instance) => {
+        const wordfilter = require('wordfilter');
+        wordfilter.addWords(['setan','babi', 'iblis', 'anjing']);
+        const isBadWord = wordfilter.blacklisted(instance.content)
+
+        if (isBadWord) {
+          throw 'Dilarang memposting kata kata kasar!'
+        }
+      }
+    },
     sequelize,
     modelName: 'Post',
   });
