@@ -9,6 +9,7 @@
 <body class="mx-4">
   <%- include('./partials/_header') %>
   <br><br><br>
+    <% const arr = [] %>
 
     <% if (!user.Profile) { %>
         <h2>Upload Your Profile First.</h2><br>
@@ -51,14 +52,21 @@
         </thead>
         <tbody>
         <% user.Posts.forEach((el, index) => { %>
+          <% if (el.Tags.length) { %>
+            <% el.Tags.forEach((el) => { %>
+              <% arr.push(el.name) %>
+            <% }) %>
             <tr>
               <th scope="row"><%= index + 1 %></th>
               <td><%= el.content %></td>
-              <td><%= el.Tags[0].name %></td>
+              
+                <td><%= arr.join(", ") %></td>
+              
               <td>
-                <a href="/addTag"><button type="button" class="btn btn-secondary">Add Tag</button></a>
+                <a href="/addtag/<%= el.id %>"><button type="button" class="btn btn-secondary">Add Tag</button></a>
               </td>
             </tr>
+          <% } %>
         <% }) %>
         </tbody>
       </table>

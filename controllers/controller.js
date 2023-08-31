@@ -100,6 +100,30 @@ class Controller {
             })
     }
 
+    static addTag(req, res) {
+        Tag.findAll()
+            .then((tags) => {
+                res.render('add-tag', { tags })
+            })
+            .catch((err) => {
+                console.log(err)
+                res.send(err)
+            })
+    }
+
+    static addTagPost(req, res) {
+        const { PostId } = req.params
+        const { TagId } = req.body
+        TagPost.create({ PostId, TagId})
+            .then(() => {
+                res.redirect('/profile')
+            })
+            .catch((err) => {
+                console.log(err)
+                res.send(err)
+            })
+    }
+
     static updateProfile(req, res) {
         Profile.findOne({where: {
             UserId: req.session.UserId

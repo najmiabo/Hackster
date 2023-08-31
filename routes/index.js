@@ -19,6 +19,9 @@ router.use((req, res, next) => {
 router.get('/profile', Controller.profile)
 router.post('/profile', Controller.profilePost)
 
+router.get('/addtag/:PostId', Controller.addTag)
+router.post('/addtag/:PostId', Controller.addTagPost)
+
 router.get('/profile/update', Controller.updateProfile)
 router.post('/profile/update', Controller.updateProfilePost)
 
