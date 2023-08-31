@@ -28,7 +28,10 @@ module.exports = (sequelize, DataTypes) => {
         if (isBadWord) {
           throw 'Dilarang memposting kata kata kasar!'
         }
-      }
+      },
+      
+      
+
     },
     sequelize,
     modelName: 'Post',

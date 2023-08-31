@@ -1,4 +1,4 @@
-const { User, Profile, Post, Tag } = require('../models/index')
+const { User, Profile, Post, Tag, TagPost } = require('../models/index')
 const bcrypt = require('bcryptjs');
 const { Op } = require('sequelize')
 
@@ -141,18 +141,24 @@ class Controller {
     }
 
     static postProcess(req, res) {
-        const { content, TagId } = req.body
-        console.log(req.body)
-        // res.send("a")
+        const { content, TagId } = req.body;
+    
         Post.create({ content, UserId: req.session.UserId })
+            .then((post) => {
+                if (TagId) {
+                    return TagPost.create({ PostId: post.id, TagId })
+                }
+                return Promise.resolve();
+            })
             .then(() => {
-                res.redirect('/profile')
+                res.redirect('/profile');
             })
             .catch((err) => {
-                console.log(err)
-                res.send(err)
-            })
+                console.error(err);
+                res.send(err);
+            });
     }
+    
     
     static dashboard(req, res) {
         User.findAll({
