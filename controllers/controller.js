@@ -21,7 +21,7 @@ class Controller {
         })
             .then((user) => {
                 if (user) {
-                    
+
                     const isValidPassword = bcrypt.compareSync(password, user.password);
 
                     if (isValidPassword) {
@@ -89,8 +89,8 @@ class Controller {
     }
 
     static profilePost(req, res) {
-        const { fullName, gender, dateOfBirth, phone} = req.body
-        Profile.create({ fullName, gender, dateOfBirth, phone, UserId: req.session.UserId})
+        const { fullName, gender, dateOfBirth, phone } = req.body
+        Profile.create({ fullName, gender, dateOfBirth, phone, UserId: req.session.UserId })
             .then(() => {
                 res.redirect('/profile')
             })
@@ -114,7 +114,7 @@ class Controller {
     static addTagPost(req, res) {
         const { PostId } = req.params
         const { TagId } = req.body
-        TagPost.create({ PostId, TagId})
+        TagPost.create({ PostId, TagId })
             .then(() => {
                 res.redirect('/profile')
             })
@@ -125,9 +125,11 @@ class Controller {
     }
 
     static updateProfile(req, res) {
-        Profile.findOne({where: {
-            UserId: req.session.UserId
-        }})
+        Profile.findOne({
+            where: {
+                UserId: req.session.UserId
+            }
+        })
             .then((profile) => {
                 res.render('update-profile', { profile })
             })
@@ -138,8 +140,8 @@ class Controller {
     }
 
     static updateProfilePost(req, res) {
-        const { fullName, gender, dateOfBirth, phone} = req.body
-        Profile.update({ fullName, gender, dateOfBirth, phone}, {
+        const { fullName, gender, dateOfBirth, phone } = req.body
+        Profile.update({ fullName, gender, dateOfBirth, phone }, {
             where: {
                 UserId: req.session.UserId
             }
@@ -167,18 +169,36 @@ class Controller {
 
     static postProcess(req, res) {
         const { content, TagId } = req.body;
-        
+
         Post.create({ content, UserId: req.session.UserId })
             .then((post) => {
                 if (TagId) {
-                    return TagPost.create({ PostId: post.id, TagId })
+                    let tagPostRequest = []
+                    let temp = {
+                        PostId: post.id,
+                        TagId: 0,
+                    }
+
+                    if (TagId.length > 1) {
+                        TagId.forEach(e => {
+                            temp.TagId = e
+                            tagPostRequest.push(temp)
+                        });
+                    } else {
+                        temp.TagId = TagId
+                        tagPostRequest.push(temp)
+                    }
+
+                    return TagPost.bulkCreate(tagPostRequest)
                 }
                 return Promise.resolve();
             })
             .then(() => {
+
                 res.redirect('/profile');
             })
             .catch((err) => {
+
                 if (err.name == "BadWords") {
                     res.redirect(`/post?errors=${err.errors}`)
                 } else {
@@ -187,8 +207,8 @@ class Controller {
                 }
             });
     }
-    
-    
+
+
     static dashboard(req, res) {
         User.findAll({
             where: {
@@ -258,7 +278,7 @@ class Controller {
             }
         })
     }
-    
+
 }
 
 module.exports = Controller

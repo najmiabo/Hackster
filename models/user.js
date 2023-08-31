@@ -9,6 +9,14 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
+    static hashPassword(password) {
+      console.log('masukkk');
+      const bcrypt = require('bcryptjs');
+      const salt = bcrypt.genSaltSync(10);
+      const hash = bcrypt.hashSync(password, salt);
+
+      return hash
+    }
     static associate(models) {
       // define association here
       User.hasOne(models.Profile)
@@ -55,9 +63,10 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     hooks: {
       beforeCreate: (instance) => {
-        const bcrypt = require('bcryptjs');
-        const salt = bcrypt.genSaltSync(10);
-        const hash = bcrypt.hashSync(instance.password, salt);
+       
+       let hash = User.hashPassword(instance.password)
+       
+       
 
         instance.password = hash
       }

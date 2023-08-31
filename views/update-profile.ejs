@@ -5,35 +5,59 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Profile</title>
-</head>
-<body class="mx-4">
+    <style>
 
-    
-        <form action="" method="post">
-          <div class="mb-3">
-            <label for="" class="form-label">Full Name</label>
-            <input type="text" class="form-control" name="fullName" value="<%= profile.fullName %>">
-          </div>
-          <div class="mb-3">
-            <label for="" class="form-label">Gender</label>
-            <select class="form-select" aria-label="Default select example" name="gender" value="<%= profile.gender %>">
-                <option selected>--Select Gender--</option>
-                <option value="M" <%= profile.gender == "M" ? 'selected' : ''%>>Male</option>
-                <option value="F" <%= profile.gender == "F" ? 'selected' : ''%>>Female</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="" class="form-label">Birth Date</label>
-            <input type="date" class="form-control" name="dateOfBirth" value="<%= profile.getFormatDate(profile.dateOfBirth) %>">
-          </div>
-          <div class="mb-3">
-            <label for="" class="form-label">Phone Number</label>
-            <input type="text" class="form-control" name="phone" value="<%= profile.phone %>">
-          </div>
-          <a href="/profile"><button>Cancel</button></a>
-          <button type="submit" class="btn btn-primary">Save</button>
-        </form>
-      
-        
+        body {
+            background-color: #212529; 
+            color: #ffffff; 
+        }
+        .form-container {
+            background-color: #343a40; 
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+            margin-top: 50px;
+        }
+        .btn-primary {
+            background-color: #007bff; 
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3; 
+            border-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 form-container">
+                <form action="" method="post">
+                    <div class="mb-3">
+                        <label for="" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" name="fullName" value="<%= profile.fullName %>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Gender</label>
+                        <select class="form-select" aria-label="Default select example" name="gender" value="<%= profile.gender %>">
+                            <option selected>--Select Gender--</option>
+                            <option value="M" <%= profile.gender == "M" ? 'selected' : ''%>>Male</option>
+                            <option value="F" <%= profile.gender == "F" ? 'selected' : ''%>>Female</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Birth Date</label>
+                        <input type="date" class="form-control" name="dateOfBirth" value="<%= profile.getFormatDate(profile.dateOfBirth) %>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Phone Number</label>
+                        <input type="text" class="form-control" name="phone" value="<%= profile.phone %>">
+                    </div>
+                    <a href="/profile" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
