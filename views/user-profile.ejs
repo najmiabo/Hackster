@@ -42,7 +42,7 @@
 <body>
   <%- include('./partials/_header') %>
   <br><br><br>
-    <% const arr = [] %>
+    <% let arr = [] %>
 
     <% if (!user.Profile) { %>
         <h2 class="mb-4">Upload Your Profile First.</h2>
@@ -88,6 +88,9 @@
             <% el.Tags.forEach((el) => { %>
               <% arr.push(el.name) %>
             <% }) %>
+          <% } else { %>
+            <% arr = [] %>
+          <% } %>
             <tr>
               <th scope="row"><%= index + 1 %></th>
               <td><%= el.content %></td>
@@ -96,7 +99,6 @@
                 <a href="/addtag/<%= el.id %>"><button type="button" class="btn btn-secondary">Add Tag</button></a>
               </td>
             </tr>
-          <% } %>
         <% }) %>
         </tbody>
       </table>

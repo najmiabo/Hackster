@@ -190,6 +190,7 @@ class Controller {
                     }
 
                     return TagPost.bulkCreate(tagPostRequest)
+                    // return TagPost.create({ PostId: post.id, TagId })
                 }
                 return Promise.resolve();
             })
